@@ -1,0 +1,30 @@
+name: portfolio
+description: Hamayun Saeed — Professional Flutter Web Portfolio
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_fonts: ^6.2.1
+  url_launcher: ^6.3.0
+  visibility_detector: ^0.4.0+2
+  emailjs: ^4.0.0
+  http: ^1.2.0
+
+dev_dependencies:
+  flutter_lints: ^4.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - assets/projects/trasingo/
+    - assets/projects/nawabi/
+    - assets/projects/chat/
+    - assets/projects/lostfound/
+    - assets/projects/newshub/
+    - assets/projects/kids/
