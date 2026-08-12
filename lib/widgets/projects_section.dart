@@ -13,7 +13,8 @@ class ProjectsSection extends StatelessWidget {
   @override
   Widget build(BuildContext ctx) => Padding(
       padding: EdgeInsets.symmetric(
-          horizontal: isMobile ? 24 : 80, vertical: isMobile ? 60 : 120),
+          horizontal: isMobile ? 16 : 80,
+          vertical: isMobile ? 40 : 120),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         FadeInOnScroll(
             child: SectionHeader(
@@ -28,7 +29,7 @@ class ProjectsSection extends StatelessWidget {
                 (i) => FadeInOnScroll(
                 delay: Duration(milliseconds: 60 * i),
                 child: Padding(
-                    padding: const EdgeInsets.only(bottom: 40),
+                    padding: EdgeInsets.only(bottom: isMobile ? 24 : 40),
                     child: _ProjectDetailCard(
                         project: PortfolioData.projects[i],
                         isMobile: isMobile)))),
@@ -83,7 +84,7 @@ class _PDCState extends State<_ProjectDetailCard>
           duration: const Duration(milliseconds: 200),
           decoration: BoxDecoration(
               color: AppColors.surfaceCard,
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(16),
               border: Border.all(
                   color:
                   _h ? _accent.withOpacity(.45) : AppColors.border,
@@ -98,7 +99,7 @@ class _PDCState extends State<_ProjectDetailCard>
                   : null),
           child:
           Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            // ── Poster / Screenshot area (auto-scrolling carousel) ──────────
+            // ── Poster / Screenshot area ──────────
             _PosterArea(
                 project: widget.project,
                 selected: _selectedScreen,
@@ -107,48 +108,81 @@ class _PDCState extends State<_ProjectDetailCard>
                 accent: _accent),
             // ── Body ─────────────────────────────────────────────────
             Padding(
-                padding: const EdgeInsets.all(28),
+                padding: EdgeInsets.all(widget.isMobile ? 16 : 28),
                 child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Title row
-                      Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Expanded(
-                                child: Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    children: [
-                                      Text(widget.project.title,
-                                          style: AppText.h3),
-                                      const SizedBox(height: 3),
-                                      Text(widget.project.subtitle,
-                                          style: AppText.body.copyWith(
-                                              fontSize: 13, color: _accent)),
-                                    ])),
-                            _TagPill(widget.project.yourRole
-                                .split('—')
-                                .first
-                                .trim()),
-                          ]),
+                      // Title row - improved for mobile
+                      widget.isMobile
+                          ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(widget.project.title,
+                              style: AppText.h3.copyWith(
+                                  fontSize: 18)),
+                          const SizedBox(height: 3),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(widget.project.subtitle,
+                                    style: AppText.body.copyWith(
+                                        fontSize: 12,
+                                        color: _accent)),
+                              ),
+                              const SizedBox(width: 8),
+                              _TagPill(
+                                widget.project.yourRole
+                                    .split('—')
+                                    .first
+                                    .trim(),
+                                isMobile: widget.isMobile,
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                          : Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                              child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Text(widget.project.title,
+                                        style: AppText.h3),
+                                    const SizedBox(height: 3),
+                                    Text(widget.project.subtitle,
+                                        style: AppText.body.copyWith(
+                                            fontSize: 13, color: _accent)),
+                                  ])),
+                          _TagPill(
+                              widget.project.yourRole
+                                  .split('—')
+                                  .first
+                                  .trim(),
+                              isMobile: widget.isMobile),
+                        ],
+                      ),
                       const SizedBox(height: 16),
-                      // Tags
+                      // Tags - wrap properly
                       Wrap(
-                          spacing: 8,
-                          runSpacing: 8,
+                          spacing: widget.isMobile ? 4 : 8,
+                          runSpacing: widget.isMobile ? 4 : 8,
                           children: widget.project.tags
-                              .map((t) => _Chip(t, _accent))
+                              .map((t) => _Chip(t, _accent, isMobile: widget.isMobile))
                               .toList()),
                       const SizedBox(height: 20),
-                      // Problem / Solution row
+                      // Problem / Solution row - responsive
                       widget.isMobile
                           ? Column(children: [
                         _ProbSol('🔴', 'Problem',
-                            widget.project.problem, AppColors.warning),
+                            widget.project.problem, AppColors.warning,
+                            isMobile: widget.isMobile),
                         const SizedBox(height: 12),
                         _ProbSol('🟢', 'Solution',
-                            widget.project.solution, AppColors.success)
+                            widget.project.solution, AppColors.success,
+                            isMobile: widget.isMobile)
                       ])
                           : Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,37 +192,46 @@ class _PDCState extends State<_ProjectDetailCard>
                                     '🔴',
                                     'Problem',
                                     widget.project.problem,
-                                    AppColors.warning)),
+                                    AppColors.warning,
+                                    isMobile: widget.isMobile)),
                             const SizedBox(width: 16),
                             Expanded(
                                 child: _ProbSol(
                                     '🟢',
                                     'Solution',
                                     widget.project.solution,
-                                    AppColors.success))
+                                    AppColors.success,
+                                    isMobile: widget.isMobile))
                           ]),
-                      // Expand toggle
+                      // Expand toggle - bigger touch area for mobile
                       const SizedBox(height: 20),
                       GestureDetector(
                           onTap: _toggle,
-                          child: Row(children: [
-                            AnimatedRotation(
-                              turns: _expanded ? 0.5 : 0.0,
-                              duration: const Duration(milliseconds: 300),
-                              child: Icon(
-                                Icons.expand_more_rounded,
-                                color: _accent,
-                                size: 22,
-                              ),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              vertical: widget.isMobile ? 8 : 0,
+                              horizontal: widget.isMobile ? 4 : 0,
                             ),
-                            const SizedBox(width: 8),
-                            Text(
-                                _expanded
-                                    ? 'Hide Details'
-                                    : 'View Full Details',
-                                style: AppText.bodyStrong
-                                    .copyWith(color: _accent, fontSize: 13)),
-                          ])),
+                            child: Row(children: [
+                              AnimatedRotation(
+                                turns: _expanded ? 0.5 : 0.0,
+                                duration: const Duration(milliseconds: 300),
+                                child: Icon(
+                                  Icons.expand_more_rounded,
+                                  color: _accent,
+                                  size: widget.isMobile ? 28 : 22,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                  _expanded
+                                      ? 'Hide Details'
+                                      : 'View Full Details',
+                                  style: AppText.bodyStrong
+                                      .copyWith(color: _accent,
+                                      fontSize: widget.isMobile ? 15 : 13)),
+                            ]),
+                          )),
                       // Expandable details
                       SizeTransition(
                           sizeFactor: _expandAnim,
@@ -198,18 +241,18 @@ class _PDCState extends State<_ProjectDetailCard>
                                 const SizedBox(height: 20),
                                 const _Divider(),
                                 const SizedBox(height: 20),
-                                // Technologies
+                                // Technologies - responsive
                                 _DetailBlock(
                                     title: 'Technologies Used',
                                     icon: '⚙️',
                                     child: Wrap(
-                                        spacing: 8,
-                                        runSpacing: 8,
+                                        spacing: widget.isMobile ? 4 : 8,
+                                        runSpacing: widget.isMobile ? 4 : 8,
                                         children: widget.project.technologies
-                                            .map((t) => _TechPill(t))
+                                            .map((t) => _TechPill(t, isMobile: widget.isMobile))
                                             .toList())),
                                 const SizedBox(height: 20),
-                                // Features
+                                // Features - responsive
                                 _DetailBlock(
                                     title: 'Features',
                                     icon: '✨',
@@ -244,17 +287,16 @@ class _PDCState extends State<_ProjectDetailCard>
                                                           style: AppText
                                                               .body
                                                               .copyWith(
-                                                              fontSize:
-                                                              14))),
+                                                              fontSize: widget.isMobile ? 13 : 14))),
                                                 ])))
                                             .toList())),
                                 const SizedBox(height: 20),
-                                // Your Role
+                                // Your Role - responsive
                                 _DetailBlock(
                                     title: 'My Role',
                                     icon: '👤',
                                     child: Container(
-                                        padding: const EdgeInsets.all(14),
+                                        padding: EdgeInsets.all(widget.isMobile ? 12 : 14),
                                         decoration: BoxDecoration(
                                             color: AppColors.surface,
                                             borderRadius:
@@ -263,30 +305,13 @@ class _PDCState extends State<_ProjectDetailCard>
                                                 color: AppColors.border)),
                                         child: Text(widget.project.yourRole,
                                             style: AppText.body
-                                                .copyWith(fontSize: 14)))),
-                                const SizedBox(height: 20),
-                                // Links
-                                // Row(children: [
-                                //   _LinkBtn(
-                                //       label: 'Source Code',
-                                //       icon: Icons.code_rounded,
-                                //       url: widget.project.repoUrl,
-                                //       accent: _accent),
-                                //   const SizedBox(width: 20),
-                                //   _LinkBtn(
-                                //       label: 'Live Demo',
-                                //       icon: Icons.open_in_new_rounded,
-                                //       url: widget.project.liveUrl,
-                                //       accent: _accent),
-                                // ]),
+                                                .copyWith(fontSize: widget.isMobile ? 13 : 14)))),
                               ])),
                     ])),
           ])));
 }
 
 // ── Split Poster Area — now with AUTO-SCROLLING screenshots ──────────────────
-// Left half  → screenshot / image (contained, no stretch), auto-advances
-// Right half → animated decorative info panel
 class _PosterArea extends StatefulWidget {
   final Project project;
   final int selected;
@@ -335,7 +360,6 @@ class _PosterAreaState extends State<_PosterArea>
   void _startAutoScroll() {
     _autoScrollTimer?.cancel();
     final count = widget.project.screenshots.length;
-    // Only auto-scroll when there's more than one screenshot to cycle through.
     if (count <= 1) return;
     _autoScrollTimer = Timer.periodic(_autoScrollInterval, (_) {
       if (!mounted) return;
@@ -344,9 +368,6 @@ class _PosterAreaState extends State<_PosterArea>
     });
   }
 
-  /// Called when the user manually taps a dot — jumps to that screenshot
-  /// and restarts the auto-scroll timer so it doesn't immediately skip
-  /// past the one they just picked.
   void _onManualSelect(int i) {
     widget.onSelect(i);
     _startAutoScroll();
@@ -355,7 +376,6 @@ class _PosterAreaState extends State<_PosterArea>
   @override
   void didUpdateWidget(covariant _PosterArea oldWidget) {
     super.didUpdateWidget(oldWidget);
-    // Restart the cycle if the project (and its screenshot count) changes.
     if (oldWidget.project.screenshots.length !=
         widget.project.screenshots.length) {
       _startAutoScroll();
@@ -372,10 +392,10 @@ class _PosterAreaState extends State<_PosterArea>
   @override
   Widget build(BuildContext ctx) {
     final shots = widget.project.screenshots;
-    final posterHeight = widget.isMobile ? 240.0 : 360.0;
+    final posterHeight = widget.isMobile ? 200.0 : 360.0;
 
     return ClipRRect(
-      borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+      borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
       child: SizedBox(
         height: posterHeight,
         child: widget.isMobile
@@ -392,12 +412,13 @@ class _PosterAreaState extends State<_PosterArea>
               selected: widget.selected,
               accent: widget.accent,
               project: widget.project,
+              isMobile: widget.isMobile,
             ),
           ),
-          // Dots at bottom (still tappable for manual override)
+          // Dots at bottom
           if (shots.length > 1)
             Positioned(
-              bottom: 10,
+              bottom: 8,
               left: 0,
               right: 0,
               child: _DotsRow(
@@ -406,6 +427,7 @@ class _PosterAreaState extends State<_PosterArea>
                 accent: widget.accent,
                 onSelect: _onManualSelect,
                 project: widget.project,
+                isMobile: widget.isMobile,
               ),
             ),
         ])
@@ -423,6 +445,7 @@ class _PosterAreaState extends State<_PosterArea>
                   selected: widget.selected,
                   accent: widget.accent,
                   project: widget.project,
+                  isMobile: widget.isMobile,
                 ),
               ),
               // Dots
@@ -437,6 +460,7 @@ class _PosterAreaState extends State<_PosterArea>
                     accent: widget.accent,
                     onSelect: _onManualSelect,
                     project: widget.project,
+                    isMobile: widget.isMobile,
                   ),
                 ),
             ]),
@@ -449,6 +473,7 @@ class _PosterAreaState extends State<_PosterArea>
               accent: widget.accent,
               floatAnim: _floatAnim,
               fadeAnim: _fadeAnim,
+              isMobile: widget.isMobile,
             ),
           ),
         ]),
@@ -483,12 +508,14 @@ class _ScreenImage extends StatelessWidget {
   final int selected;
   final Color accent;
   final Project project;
+  final bool isMobile;
 
   const _ScreenImage({
     required this.shots,
     required this.selected,
     required this.accent,
     required this.project,
+    required this.isMobile,
   });
 
   @override
@@ -497,7 +524,7 @@ class _ScreenImage extends StatelessWidget {
       return Center(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           Icon(Icons.phone_android_rounded,
-              size: 60, color: Colors.white.withOpacity(.25)),
+              size: isMobile ? 40 : 60, color: Colors.white.withOpacity(.25)),
           const SizedBox(height: 8),
           Text('Screenshots coming soon',
               style: AppText.small.copyWith(color: Colors.white54)),
@@ -517,6 +544,7 @@ class _ScreenImage extends StatelessWidget {
         key: ValueKey(selected),
         screen: shots[selected],
         accent: accent,
+        isMobile: isMobile,
       ),
     );
   }
@@ -525,11 +553,12 @@ class _ScreenImage extends StatelessWidget {
 class _SingleScreen extends StatelessWidget {
   final ProjectScreenshot screen;
   final Color accent;
-  const _SingleScreen({super.key, required this.screen, required this.accent});
+  final bool isMobile;
+  const _SingleScreen({super.key, required this.screen, required this.accent, required this.isMobile});
 
   @override
   Widget build(BuildContext ctx) => Stack(fit: StackFit.expand, children: [
-    // Image — BoxFit.contain so no stretch, letterboxed within half
+    // Image — BoxFit.contain so no stretch
     Image.asset(
       screen.assetPath,
       fit: BoxFit.fill,
@@ -537,7 +566,7 @@ class _SingleScreen extends StatelessWidget {
       errorBuilder: (_, __, ___) => Center(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           Icon(Icons.add_photo_alternate_outlined,
-              size: 44, color: Colors.white.withOpacity(.3)),
+              size: isMobile ? 30 : 44, color: Colors.white.withOpacity(.3)),
           const SizedBox(height: 6),
           Text(screen.assetPath.split('/').last,
               style: const TextStyle(color: Colors.white38, fontSize: 10)),
@@ -550,21 +579,6 @@ class _SingleScreen extends StatelessWidget {
         ]),
       ),
     ),
-    // // Caption label
-    // Positioned(
-    //   bottom: 36,
-    //   left: 10,
-    //   child: Container(
-    //     padding:
-    //     const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
-    //     decoration: BoxDecoration(
-    //         color: Colors.black54,
-    //         borderRadius: BorderRadius.circular(6)),
-    //     child: Text(screen.caption,
-    //         style:
-    //         const TextStyle(color: Colors.white70, fontSize: 10)),
-    //   ),
-    // ),
   ]);
 }
 
@@ -574,12 +588,14 @@ class _DotsRow extends StatelessWidget {
   final Color accent;
   final void Function(int) onSelect;
   final Project project;
+  final bool isMobile;
   const _DotsRow(
       {required this.count,
         required this.selected,
         required this.accent,
         required this.onSelect,
-        required this.project});
+        required this.project,
+        required this.isMobile});
 
   @override
   Widget build(BuildContext ctx) => Center(
@@ -588,39 +604,23 @@ class _DotsRow extends StatelessWidget {
           count,
               (i) => GestureDetector(
             onTap: () => onSelect(i),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              width: i == selected ? 36 : 24,
-              height: i == selected ? 5 : 4,
-              margin: const EdgeInsets.symmetric(horizontal: 3),
-              decoration: BoxDecoration(
-                  color: i == selected
-                      ? Colors.white
-                      : Colors.white38,
-                  borderRadius: BorderRadius.circular(3)),
+            child: Container(
+              padding: EdgeInsets.symmetric(
+                horizontal: isMobile ? 6 : 4,
+                vertical: isMobile ? 6 : 4,
+              ),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                width: i == selected ? 36 : 24,
+                height: i == selected ? 5 : 4,
+                decoration: BoxDecoration(
+                    color: i == selected
+                        ? Colors.white
+                        : Colors.white38,
+                    borderRadius: BorderRadius.circular(3)),
+              ),
             ),
           )),
-      // Demo video pill
-      // if (project.demoVideoPath != null) ...[
-      //   const SizedBox(width: 10),
-      //   Container(
-      //     padding:
-      //     const EdgeInsets.symmetric(horizontal: 9, vertical: 3),
-      //     decoration: BoxDecoration(
-      //         color: Colors.black45,
-      //         borderRadius: BorderRadius.circular(20)),
-      //     child: Row(mainAxisSize: MainAxisSize.min, children: [
-      //       const Icon(Icons.play_circle_outline_rounded,
-      //           color: Colors.white70, size: 12),
-      //       const SizedBox(width: 4),
-      //       Text('Demo',
-      //           style: AppText.mono.copyWith(
-      //               fontSize: 8,
-      //               color: Colors.white70,
-      //               letterSpacing: 1)),
-      //     ]),
-      //   ),
-      // ],
     ]),
   );
 }
@@ -631,12 +631,14 @@ class _DecorativePanel extends StatelessWidget {
   final Color accent;
   final Animation<double> floatAnim;
   final Animation<double> fadeAnim;
+  final bool isMobile;
 
   const _DecorativePanel({
     required this.project,
     required this.accent,
     required this.floatAnim,
     required this.fadeAnim,
+    required this.isMobile,
   });
 
   @override
@@ -675,7 +677,7 @@ class _DecorativePanel extends StatelessWidget {
 
         // ── Content ───────────────────────────────────────────────────
         Padding(
-          padding: const EdgeInsets.all(28),
+          padding: EdgeInsets.all(isMobile ? 16 : 28),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -701,7 +703,7 @@ class _DecorativePanel extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              // Floating animated stat cards
+              // Floating animated stat cards - responsive
               AnimatedBuilder(
                 animation: floatAnim,
                 builder: (_, __) => Transform.translate(
@@ -710,6 +712,7 @@ class _DecorativePanel extends StatelessWidget {
                     label: 'Technologies',
                     value: '${project.technologies.length}+',
                     accent: accent,
+                    isMobile: isMobile,
                   ),
                 ),
               ),
@@ -719,12 +722,12 @@ class _DecorativePanel extends StatelessWidget {
               AnimatedBuilder(
                 animation: floatAnim,
                 builder: (_, __) => Transform.translate(
-                  // Opposite phase for second card
                   offset: Offset(0, -floatAnim.value * .7),
                   child: _StatCard(
                     label: 'Features Shipped',
                     value: '${project.features.length}',
                     accent: accent,
+                    isMobile: isMobile,
                   ),
                 ),
               ),
@@ -740,41 +743,15 @@ class _DecorativePanel extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              // Tags strip
+              // Tags strip - responsive
               Wrap(
-                spacing: 6,
-                runSpacing: 6,
+                spacing: isMobile ? 4 : 6,
+                runSpacing: isMobile ? 4 : 6,
                 children: project.tags
                     .take(3)
-                    .map((t) => _MiniTag(label: t, accent: accent))
+                    .map((t) => _MiniTag(label: t, accent: accent, isMobile: isMobile))
                     .toList(),
               ),
-
-              const SizedBox(height: 16),
-
-              // Animated "scroll to explore" hint
-              // AnimatedBuilder(
-              //   animation: fadeAnim,
-              //   builder: (_, child) => Opacity(
-              //     opacity: (.4 + .6 * fadeAnim.value).clamp(0.0, 1.0),
-              //     child: child,
-              //   ),
-              //   child: Row(
-              //     mainAxisSize: MainAxisSize.min,
-              //     children: [
-              //       Icon(Icons.touch_app_outlined,
-              //           size: 13, color: accent.withOpacity(.7)),
-              //       const SizedBox(width: 5),
-              //       Text(
-              //         'Tap card to explore',
-              //         style: AppText.mono.copyWith(
-              //             fontSize: 9,
-              //             color: accent.withOpacity(.7),
-              //             letterSpacing: 1.2),
-              //       ),
-              //     ],
-              //   ),
-              // ),
             ],
           ),
         ),
@@ -861,13 +838,16 @@ class _DotGridPainter extends CustomPainter {
 class _StatCard extends StatelessWidget {
   final String label, value;
   final Color accent;
+  final bool isMobile;
   const _StatCard(
-      {required this.label, required this.value, required this.accent});
+      {required this.label, required this.value, required this.accent, required this.isMobile});
 
   @override
   Widget build(BuildContext ctx) => Container(
-    padding:
-    const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+    padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 10 : 14,
+        vertical: isMobile ? 8 : 10
+    ),
     decoration: BoxDecoration(
       color: AppColors.surfaceCard.withOpacity(.8),
       borderRadius: BorderRadius.circular(12),
@@ -882,12 +862,18 @@ class _StatCard extends StatelessWidget {
     child: Row(mainAxisSize: MainAxisSize.min, children: [
       Text(
         value,
-        style: AppText.h3.copyWith(color: accent, fontSize: 22),
+        style: AppText.h3.copyWith(
+            color: accent,
+            fontSize: isMobile ? 18 : 22
+        ),
       ),
       const SizedBox(width: 10),
       Text(
         label,
-        style: AppText.body.copyWith(fontSize: 12, color: AppColors.paper.withOpacity(.7)),
+        style: AppText.body.copyWith(
+            fontSize: isMobile ? 11 : 12,
+            color: AppColors.paper.withOpacity(.7)
+        ),
       ),
     ]),
   );
@@ -897,19 +883,22 @@ class _StatCard extends StatelessWidget {
 class _MiniTag extends StatelessWidget {
   final String label;
   final Color accent;
-  const _MiniTag({required this.label, required this.accent});
+  final bool isMobile;
+  const _MiniTag({required this.label, required this.accent, required this.isMobile});
 
   @override
   Widget build(BuildContext ctx) => Container(
-    padding:
-    const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+    padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 6 : 8,
+        vertical: isMobile ? 2 : 3
+    ),
     decoration: BoxDecoration(
       color: accent.withOpacity(.1),
       borderRadius: BorderRadius.circular(6),
     ),
     child: Text(label,
         style: AppText.mono
-            .copyWith(fontSize: 9, color: accent, letterSpacing: .8)),
+            .copyWith(fontSize: isMobile ? 8 : 9, color: accent, letterSpacing: .8)),
   );
 }
 
@@ -917,11 +906,12 @@ class _MiniTag extends StatelessWidget {
 class _ProbSol extends StatelessWidget {
   final String emoji, title, text;
   final Color color;
-  const _ProbSol(this.emoji, this.title, this.text, this.color);
+  final bool isMobile;
+  const _ProbSol(this.emoji, this.title, this.text, this.color, {required this.isMobile});
 
   @override
   Widget build(BuildContext ctx) => Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(isMobile ? 12 : 16),
       decoration: BoxDecoration(
           color: color.withOpacity(.07),
           borderRadius: BorderRadius.circular(12),
@@ -932,10 +922,10 @@ class _ProbSol extends StatelessWidget {
           const SizedBox(width: 6),
           Text(title,
               style: AppText.bodyStrong
-                  .copyWith(fontSize: 13, color: color))
+                  .copyWith(fontSize: isMobile ? 12 : 13, color: color))
         ]),
         const SizedBox(height: 8),
-        Text(text, style: AppText.body.copyWith(fontSize: 13)),
+        Text(text, style: AppText.body.copyWith(fontSize: isMobile ? 12 : 13)),
       ]));
 }
 
@@ -961,40 +951,55 @@ class _DetailBlock extends StatelessWidget {
 class _Chip extends StatelessWidget {
   final String label;
   final Color accent;
-  const _Chip(this.label, this.accent);
+  final bool isMobile;
+  const _Chip(this.label, this.accent, {required this.isMobile});
 
   @override
   Widget build(BuildContext ctx) => Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 8 : 10,
+          vertical: isMobile ? 4 : 5
+      ),
       decoration: BoxDecoration(
           border: Border.all(color: accent.withOpacity(.4)),
           borderRadius: BorderRadius.circular(20)),
       child: Text(label,
           style: AppText.mono
-              .copyWith(fontSize: 10, color: accent, letterSpacing: 1)));
+              .copyWith(fontSize: isMobile ? 9 : 10, color: accent, letterSpacing: 1)));
 }
 
 class _TechPill extends StatelessWidget {
   final String t;
-  const _TechPill(this.t);
+  final bool isMobile;
+  const _TechPill(this.t, {required this.isMobile});
 
   @override
   Widget build(BuildContext ctx) => Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 10 : 12,
+          vertical: isMobile ? 5 : 6
+      ),
       decoration: BoxDecoration(
           color: AppColors.surfaceLight,
           borderRadius: BorderRadius.circular(20)),
       child: Text(t,
-          style: AppText.small.copyWith(color: AppColors.paper)));
+          style: AppText.small.copyWith(
+            color: AppColors.paper,
+            fontSize: isMobile ? 11 : 12,
+          )));
 }
 
 class _TagPill extends StatelessWidget {
   final String t;
-  const _TagPill(this.t);
+  final bool isMobile;
+  const _TagPill(this.t, {required this.isMobile});
 
   @override
   Widget build(BuildContext ctx) => Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      padding: EdgeInsets.symmetric(
+          horizontal: isMobile ? 8 : 10,
+          vertical: isMobile ? 4 : 5
+      ),
       decoration: BoxDecoration(
           color: AppColors.tealDark.withOpacity(.2),
           borderRadius: BorderRadius.circular(20),
@@ -1002,7 +1007,9 @@ class _TagPill extends StatelessWidget {
           Border.all(color: AppColors.teal.withOpacity(.3))),
       child: Text(t,
           style: AppText.mono.copyWith(
-              fontSize: 9, color: AppColors.teal, letterSpacing: 1)));
+              fontSize: isMobile ? 8 : 9,
+              color: AppColors.teal,
+              letterSpacing: 1)));
 }
 
 class _Divider extends StatelessWidget {
@@ -1017,20 +1024,22 @@ class _LinkBtn extends StatelessWidget {
   final String label, url;
   final IconData icon;
   final Color accent;
+  final bool isMobile;
   const _LinkBtn(
       {required this.label,
         required this.icon,
         required this.url,
-        required this.accent});
+        required this.accent,
+        required this.isMobile});
 
   @override
   Widget build(BuildContext ctx) => InkWell(
       onTap: () => launchUrl(Uri.parse(url)),
       child: Row(mainAxisSize: MainAxisSize.min, children: [
-        Icon(icon, size: 15, color: accent),
+        Icon(icon, size: isMobile ? 18 : 15, color: accent),
         const SizedBox(width: 6),
         Text(label,
             style: AppText.bodyStrong
-                .copyWith(color: accent, fontSize: 13))
+                .copyWith(color: accent, fontSize: isMobile ? 14 : 13))
       ]));
 }

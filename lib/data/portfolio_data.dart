@@ -45,15 +45,14 @@ class Experience {
 class PortfolioData {
   static const name        = 'Hamayun Saeed';
   static const initials    = 'HS';
-  static const headline    = 'Full Stack Mobile App Developer';
-  static const profileImage = 'assets/images/profile_image.jpeg'; // <-- apni photo yahan rakh dena
+  static const headline = 'Full Stack Developer | Mobile & Web Application Specialist';
+  static const profileImage = 'assets/images/profile_image.jpeg';
 
   static const roles = [
-    'Android App Developer',
-    'Flutter Developer',
-    'Backend Developer',
-    'AI-Powered App Builder',
-    'Full Stack Mobile Dev',
+    'Full Stack Developer',
+    'Mobile App Developer (Flutter & Android)',
+    'Backend Developer (Node.js, MongoDB)',
+    'Software Engineer',
   ];
 
   static const tagline =
@@ -61,19 +60,18 @@ class PortfolioData {
       'scalable backends & AI-powered features that clients love.';
 
   static const aboutText =
-      'I am a passionate Full Stack Mobile App Developer with hands-on '
-      'experience building high-performance apps using Flutter and Android '
-      '(Kotlin/Java). My backend skills in Node.js and MongoDB let me '
-      'deliver end-to-end solutions — clean UI, scalable APIs, real-time '
-      'features, and Firebase integration. I also integrate cutting-edge AI '
-      'capabilities into mobile apps to give products a real competitive edge. '
-      'Whether a startup MVP or a production system, I bring the full stack.';
+      'I am a Full Stack Application Developer with expertise in building end-to-end solutions '
+      '— from mobile apps to web applications and scalable backends. '
+      'I specialize in Flutter, Android (Kotlin/Java), Node.js, Express.js, MongoDB, and Firebase. '
+      'With strong programming foundations in C, C++, C#, Python, Java, Kotlin, Dart, and JavaScript, '
+      'I build clean, scalable, and user-friendly applications. '
+      'I also teach Computer Science, Programming, and Mobile App Development, sharing practical '
+      'software engineering skills with students.';
 
   static const email    = 'hamayunsaeed48@gmail.com';
   static const phone    = '+92 308 4720312';
   static const location = 'Fortabbas, Punjab, Pakistan';
 
-  // <-- Apne real social links yahan update karo
   static const socials = [
     SocialLink('GitHub',   'https://github.com/hamayunsaeed48github'),
     SocialLink('LinkedIn', 'www.linkedin.com/in/hamayun-saeed-585957185'),
@@ -84,26 +82,38 @@ class PortfolioData {
 
   static const services = [
     ServiceItem(title:'Android App Development',icon:'📱',
-      description:'Native Android apps with Kotlin & Jetpack Compose — pixel-perfect UI, smooth performance, Play Store ready.',
-      features:['Kotlin & Java (Jetpack Compose / XML)','MVVM Architecture','Room / SQLite local storage','Firebase & REST API integration','Push notifications (FCM)']),
+        description:'Native Android apps with Kotlin & Jetpack Compose — pixel-perfect UI, smooth performance, Play Store ready.',
+        features:['Kotlin & Java (Jetpack Compose / XML)','MVVM Architecture','Room / SQLite local storage','Firebase & REST API integration','Push notifications (FCM)']),
     ServiceItem(title:'Flutter Cross-Platform Apps',icon:'🦋',
-      description:'One codebase — Android, iOS & Web. Beautiful responsive UI with silky-smooth animations.',
-      features:['Flutter / Dart','State management (Provider, Riverpod, BLoC)','Google Maps & real-time location','Socket.IO live communication','Firebase & REST API integration']),
+        description:'One codebase — Android, iOS & Web. Beautiful responsive UI with silky-smooth animations.',
+        features:['Flutter / Dart','State management (Provider, Riverpod, BLoC)','Google Maps & real-time location','Socket.IO live communication','Firebase & REST API integration']),
     ServiceItem(title:'Backend & API Development',icon:'⚙️',
-      description:'Scalable RESTful APIs and real-time backends that power your mobile apps reliably at any scale.',
-      features:['Node.js & Express.js','MongoDB with Mongoose','JWT & Firebase Authentication','Socket.IO (real-time)','Firebase Cloud Functions']),
+        description:'Scalable RESTful APIs and real-time backends that power your mobile apps reliably at any scale.',
+        features:['Node.js & Express.js','MongoDB with Mongoose','JWT & Firebase Authentication','Socket.IO (real-time)','Firebase Cloud Functions']),
+    ServiceItem(
+      title:'Web Application Development',
+      icon:'🌐',
+      description:'Modern admin panels and business web applications using JavaScript, Node.js, Express.js, and MongoDB.',
+      features:[
+        'Admin Panels',
+        'Dashboard Development',
+        'Business Management Systems',
+        'REST API Integration',
+        'Responsive Web Applications',
+      ],
+    ),
     ServiceItem(title:'AI-Powered Mobile Apps',icon:'🤖',
-      description:'Integrating AI into mobile apps — chatbots, smart recommendations, image recognition & LLM-powered screens.',
-      features:['OpenAI / Gemini API integration','AI chatbot in Flutter & Android','Smart search & recommendations','Image classification (ML Kit)','Natural language features']),
+        description:'Integrating AI into mobile apps — chatbots, smart recommendations, image recognition & LLM-powered screens.',
+        features:['OpenAI / Gemini API integration','AI chatbot in Flutter & Android','Smart search & recommendations','Image classification (ML Kit)','Natural language features']),
     ServiceItem(title:'Firebase & Cloud Solutions',icon:'☁️',
-      description:'Full Firebase setup — auth, Firestore, FCM, Cloud Functions, Storage — so your app scales without managing servers.',
-      features:['Firebase Authentication','Firestore real-time database','Firebase Cloud Messaging (FCM)','Firebase Storage','Firebase Cloud Functions']),
+        description:'Full Firebase setup — auth, Firestore, FCM, Cloud Functions, Storage — so your app scales without managing servers.',
+        features:['Firebase Authentication','Firestore real-time database','Firebase Cloud Messaging (FCM)','Firebase Storage','Firebase Cloud Functions']),
     ServiceItem(title:'Full Stack Project Delivery',icon:'🚀',
-      description:'End-to-end delivery: requirements, design, development, testing, and Play Store / App Store release.',
-      features:['Requirements & architecture planning','UI/UX design implementation','Frontend + backend development','Testing & QA','Deployment & post-launch support']),
+        description:'End-to-end delivery: requirements, design, development, testing, and Play Store / App Store release.',
+        features:['Requirements & architecture planning','UI/UX design implementation','Frontend + backend development','Testing & QA','Deployment & post-launch support']),
     ServiceItem(title:'Play Store & App Store Publishing',icon:'🏪',
-      description:'I handle the complete app publishing process — from store listing setup and screenshots to submission, review and live launch on both Google Play Store and Apple App Store.',
-      features:['Google Play Store end-to-end submission','Apple App Store (TestFlight & live release)','App signing, keystore & certificates setup','Store listing: title, description, keywords (ASO)','App icon, feature graphic & screenshot preparation','Privacy policy, content rating & compliance','Handling review rejections and resubmissions','Post-launch monitoring & update releases']),
+        description:'I handle the complete app publishing process — from store listing setup and screenshots to submission, review and live launch on both Google Play Store and Apple App Store.',
+        features:['Google Play Store end-to-end submission','Apple App Store (TestFlight & live release)','App signing, keystore & certificates setup','Store listing: title, description, keywords (ASO)','App icon, feature graphic & screenshot preparation','Privacy policy, content rating & compliance','Handling review rejections and resubmissions','Post-launch monitoring & update releases']),
   ];
 
   static const skillGroups = [
@@ -113,6 +123,31 @@ class PortfolioData {
     SkillGroup('AI & Integrations','🤖',['OpenAI API','Gemini API','ML Kit','AI Chatbot','Smart Recommendations','Image Recognition','NLP Features']),
     SkillGroup('Tools & Databases','🛠️',['Git & GitHub','Android Studio','VS Code','Firebase Console','Postman','Gradle','MySQL','Firestore']),
     SkillGroup('App Store Publishing','🏪',['Google Play Console','Apple App Store Connect','TestFlight (Beta)','App Signing & Keystore','ASO (App Store Optimisation)','Privacy Policy & Compliance','Content Rating (PEGI/ESRB)','Release Management']),
+    SkillGroup(
+      'Programming Languages', '💻',
+      [
+        'C',
+        'C++',
+        'C#',
+        'Python',
+        'Java',
+        'Kotlin',
+        'Dart',
+        'JavaScript',
+      ],
+    ),
+    SkillGroup(
+      'Software Engineering',
+      '🖥️',
+      [
+        'Object-Oriented Programming',
+        'Data Structures & Algorithms',
+        'Software Design',
+        'REST API Development',
+        'Database Design',
+        'Git & GitHub',
+      ],
+    ),
   ];
 
   static const softSkills = [
@@ -148,15 +183,14 @@ class PortfolioData {
       solution:'Complete ecosystem: Android customer app + web admin panel + Node.js backend for real-time orders and bookings.',
       technologies:['Kotlin','Jetpack Compose','Node.js','MongoDB','Firebase Auth','Firebase FCM','JavaScript (Admin Panel)','REST API'],
       features:['Browse menu with categories','Real-time table booking','Live order status updates','Admin panel: manage orders, menu & bookings','Push notifications (FCM)','Secure Firebase Authentication','MVVM architecture'],
-      yourRole:'Full Stack Developer — Built the Android app in Kotlin + Jetpack Compose, Node.js + MongoDB backend, JavaScript admin panel, and wired Firebase Auth & FCM end-to-end.',
-      tags:['Kotlin','Jetpack Compose','Node.js','MongoDB','Firebase'],
+      yourRole:'Full Stack Software Engineer — Developed the Android application, Node.js backend, REST APIs, MongoDB database, and a JavaScript-based Web Admin Panel for managing orders, menus, bookings, and customers.',      tags:['Kotlin','Jetpack Compose','Node.js','MongoDB','Firebase'],
       repoUrl:'https://github.com/hamayunsaeed48', liveUrl:'https://github.com/hamayunsaeed48',
       gradient:[0xFF6FA8AD,0xFF3F6F73], accentColor:[0xFF6FA8AD,0xFFA8DDE1],
       screenshots:[
-        ProjectScreenshot('assets/projects/nawabi/screen1.png','Menu Screen'),
-        ProjectScreenshot('assets/projects/nawabi/screen2.png','Table Booking'),
-        ProjectScreenshot('assets/projects/nawabi/screen3.png','Order Tracking'),
-        ProjectScreenshot('assets/projects/nawabi/screen4.png','Admin Panel'),
+        ProjectScreenshot('assets/projects/nawabi/nawabi_1.png','Menu Screen'),
+        ProjectScreenshot('assets/projects/nawabi/nawabi_2.png','Table Booking'),
+        ProjectScreenshot('assets/projects/nawabi/nawabi_3.png','Order Tracking'),
+        ProjectScreenshot('assets/projects/nawabi/nawabi_4.png','Admin Panel'),
       ], demoVideoPath:'assets/projects/nawabi/demo.mp4',
     ),
     Project(
@@ -170,9 +204,9 @@ class PortfolioData {
       repoUrl:'https://github.com/hamayunsaeed48', liveUrl:'https://github.com/hamayunsaeed48',
       gradient:[0xFFB388A4,0xFF6E4A60], accentColor:[0xFFB388A4,0xFFE4C4D8],
       screenshots:[
-        ProjectScreenshot('assets/projects/chat/screen1.png','Chat List'),
-        ProjectScreenshot('assets/projects/chat/screen2.png','Conversation View'),
-        ProjectScreenshot('assets/projects/chat/screen3.png','Login Screen'),
+        ProjectScreenshot('assets/projects/chat/chat1.png','Chat List'),
+        ProjectScreenshot('assets/projects/chat/chat2.png','Conversation View'),
+        ProjectScreenshot('assets/projects/chat/chat3.png','Login Screen'),
       ], demoVideoPath:'assets/projects/chat/demo.mp4',
     ),
     Project(
@@ -186,10 +220,9 @@ class PortfolioData {
       repoUrl:'https://github.com/hamayunsaeed48', liveUrl:'https://github.com/hamayunsaeed48',
       gradient:[0xFF7D9D7C,0xFF44604A], accentColor:[0xFF7D9D7C,0xFFB8D9B7],
       screenshots:[
-        ProjectScreenshot('assets/projects/lostfound/screen1.png','Home Feed'),
-        ProjectScreenshot('assets/projects/lostfound/screen2.png','Post Item'),
-        ProjectScreenshot('assets/projects/lostfound/screen3.png','Item Detail'),
-        ProjectScreenshot('assets/projects/lostfound/screen4.png','Messages'),
+        ProjectScreenshot('assets/projects/lostfound/lost1.png','Home Feed'),
+        ProjectScreenshot('assets/projects/lostfound/lost2.png','Post Item'),
+        ProjectScreenshot('assets/projects/lostfound/lost3.png','Item Detail'),
       ], demoVideoPath:'assets/projects/lostfound/demo.mp4',
     ),
     Project(
@@ -203,10 +236,8 @@ class PortfolioData {
       repoUrl:'https://github.com/hamayunsaeed48', liveUrl:'https://github.com/hamayunsaeed48',
       gradient:[0xFF7A8FAD,0xFF3F5473], accentColor:[0xFF7A8FAD,0xFFB4C8E0],
       screenshots:[
-        ProjectScreenshot('assets/projects/newshub/screen1.png','Home Feed'),
-        ProjectScreenshot('assets/projects/newshub/screen2.png','Article Detail'),
-        ProjectScreenshot('assets/projects/newshub/screen3.png','Category Filter'),
-        ProjectScreenshot('assets/projects/newshub/screen4.png','Saved Articles'),
+        ProjectScreenshot('assets/projects/newshub/news1.png','Home Feed'),
+        ProjectScreenshot('assets/projects/newshub/news2.png','Article Detail'),
       ], demoVideoPath:'assets/projects/newshub/demo.mp4',
     ),
     Project(
@@ -220,10 +251,10 @@ class PortfolioData {
       repoUrl:'https://github.com/hamayunsaeed48', liveUrl:'https://github.com/hamayunsaeed48',
       gradient:[0xFFAD8A7A,0xFF73503F], accentColor:[0xFFAD8A7A,0xFFDFBDAF],
       screenshots:[
-        ProjectScreenshot('assets/projects/kids/screen1.png','Alphabet App'),
-        ProjectScreenshot('assets/projects/kids/screen2.png','Poem App'),
-        ProjectScreenshot('assets/projects/kids/screen3.png','Clock Quiz'),
-        ProjectScreenshot('assets/projects/kids/screen4.png','Progress Screen'),
+        ProjectScreenshot('assets/projects/kids/kid1.png','Alphabet App'),
+        ProjectScreenshot('assets/projects/kids/kid2.png','Poem App'),
+        ProjectScreenshot('assets/projects/kids/kid3.png','Clock Quiz'),
+        ProjectScreenshot('assets/projects/kids/kid3.png','Progress Screen'),
       ], demoVideoPath:'assets/projects/kids/demo.mp4',
     ),
   ];
@@ -241,6 +272,16 @@ class PortfolioData {
         'Integrating Firebase Authentication and Cloud Messaging for secure login and push notifications.',
         'Developed Puck Reward Game — a mobile gaming application for a Fiverr client, implementing engaging gameplay features, reward systems, and smooth user interactions.',
         'Collaborating with international clients across Upwork and Fiverr, delivering projects through clear communication, milestone-based development, and timely updates.',
+      ],
+    ),
+    Experience(
+      role:'Computer Science Lecturer',
+      org:'Nacsit Girls College Marrot',
+      duration:'2026 — Present',
+      location:'Marrot Punjab, Pakistan',
+      points:[
+        'Teaching Computer Science, Programming (C, C++, C#, Python), .NET Framework, and Mobile App Development.',
+        'Conducting lectures, practical labs, and mentoring student projects.',
       ],
     ),
     Experience(

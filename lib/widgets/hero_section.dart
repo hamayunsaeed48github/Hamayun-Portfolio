@@ -62,7 +62,7 @@ class _State extends State<HeroSection> with TickerProviderStateMixin {
           errorBuilder:(_,__,___)=>Icon(Icons.person_rounded,size:size*.5,color:AppColors.sand.withOpacity(.6)))));
 
   Widget _textBlock()=>Column(crossAxisAlignment:CrossAxisAlignment.start,mainAxisSize:MainAxisSize.min,children:[
-    Text('FULL STACK MOBILE DEVELOPER',style:AppText.mono),
+    Text('Software Engineer',style:AppText.mono),
     const SizedBox(height:16),
     Text(PortfolioData.name,
       style:AppText.display.copyWith(fontSize:widget.isMobile?42:68),maxLines:2,overflow:TextOverflow.ellipsis),
@@ -96,7 +96,7 @@ class _State extends State<HeroSection> with TickerProviderStateMixin {
 }
 
 class _StatRow extends StatelessWidget {
-  static const _stats=[('2+','Years Exp'),('10+','Projects Built'),('1','Upwork Client') ,('1','Fiver Client'),('50k+','App Downloads')];
+  static const _stats=[('2+','Years Exp'),('10+','Projects Built'),('1','Upwork Client') ,('1','Fiver Client')];
   @override Widget build(BuildContext ctx)=>Wrap(spacing:28,runSpacing:16,
     children:_stats.map((s)=>Column(crossAxisAlignment:CrossAxisAlignment.start,mainAxisSize:MainAxisSize.min,children:[
       Text(s.$1,style:AppText.h3.copyWith(color:AppColors.sand,fontSize:26,fontWeight:FontWeight.w800)),
