@@ -1,36 +1,41 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../data/portfolio_data.dart';
 import 'section_header.dart';
 import 'fade_in_widget.dart';
-import 'package:emailjs/emailjs.dart' as emailjs;
-
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-
 
 class ContactSection extends StatefulWidget {
   final bool isMobile;
-  const ContactSection({super.key,required this.isMobile});
-  @override State<ContactSection> createState()=>_State();
+  const ContactSection({super.key, required this.isMobile});
+  @override State<ContactSection> createState() => _State();
 }
-class _State extends State<ContactSection>{
-  final _nameC=TextEditingController();
-  final _emailC=TextEditingController();
-  final _subC=TextEditingController();
-  final _msgC=TextEditingController();
-  bool _sending=false;
-  @override void dispose(){_nameC.dispose();_emailC.dispose();_subC.dispose();_msgC.dispose();super.dispose();}
 
-  InputDecoration _dec(String label,IconData icon)=>InputDecoration(
-      labelText:label,labelStyle:AppText.body.copyWith(fontSize:13.5),
-      prefixIcon:Icon(icon,color:AppColors.mist,size:18),
-      filled:true,fillColor:AppColors.surface,
-      border:OutlineInputBorder(borderRadius:BorderRadius.circular(10),borderSide:const BorderSide(color:AppColors.border)),
-      enabledBorder:OutlineInputBorder(borderRadius:BorderRadius.circular(10),borderSide:const BorderSide(color:AppColors.border)),
-      focusedBorder:OutlineInputBorder(borderRadius:BorderRadius.circular(10),borderSide:const BorderSide(color:AppColors.sand,width:1.5)));
+class _State extends State<ContactSection> {
+  final _nameC = TextEditingController();
+  final _emailC = TextEditingController();
+  final _subC = TextEditingController();
+  final _msgC = TextEditingController();
+  bool _sending = false;
 
+  @override
+  void dispose() {
+    _nameC.dispose();
+    _emailC.dispose();
+    _subC.dispose();
+    _msgC.dispose();
+    super.dispose();
+  }
+
+  InputDecoration _dec(String label, IconData icon) => InputDecoration(
+      labelText: label, labelStyle: AppText.body.copyWith(fontSize: 13.5),
+      prefixIcon: Icon(icon, color: AppColors.mist, size: 18),
+      filled: true, fillColor: AppColors.surface,
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.border)),
+      enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.border)),
+      focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: AppColors.sand, width: 1.5)));
 
   Future<void> sendEmail() async {
     final name = _nameC.text.trim();
@@ -40,9 +45,10 @@ class _State extends State<ContactSection>{
 
     // ❌ Validation first
     if (name.isEmpty || email.isEmpty || subject.isEmpty || message.isEmpty) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Please fill all fields'),
+        const SnackBar(
+          content: Text('Please fill all fields'),
           backgroundColor: Colors.red,
         ),
       );
@@ -60,7 +66,7 @@ class _State extends State<ContactSection>{
         body: jsonEncode({
           'service_id': 'service_y86zxix',
           'template_id': 'template_4saj04v',
-          'user_id': 'OTJnd5NYOn1KHd1SH',
+          'user_id': 'hG_ZvIeQA7f3qZWTx',
           'template_params': {
             'title': subject,
             'from_name': name,
@@ -73,11 +79,13 @@ class _State extends State<ContactSection>{
         }),
       );
 
+      if (!mounted) return;
+
       if (response.statusCode == 200) {
         // ✅ SUCCESS
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: const Text('Message sent successfully!'),
+          const SnackBar(
+            content: Text('Message sent successfully!'),
             backgroundColor: Colors.green,
           ),
         );
@@ -91,12 +99,14 @@ class _State extends State<ContactSection>{
         // ❌ EmailJS error
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Failed to send message. Try again.'),
+            content: Text('Failed to send (${response.statusCode}): ${response.body}'),
             backgroundColor: Colors.red,
+            duration: const Duration(seconds: 6),
           ),
         );
       }
     } catch (e) {
+      if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('Error: $e'),
@@ -104,7 +114,9 @@ class _State extends State<ContactSection>{
         ),
       );
     } finally {
-      setState(() => _sending = false);
+      if (mounted) {
+        setState(() => _sending = false);
+      }
     }
   }
   @override
@@ -183,7 +195,7 @@ class _SBState extends State<_SocialBtn>{
           child:AnimatedContainer(duration:const Duration(milliseconds:180),
               padding:const EdgeInsets.symmetric(horizontal:16,vertical:9),
               decoration:BoxDecoration(
-                  color:_h?AppColors.sand.withOpacity(.12):Colors.transparent,
+                  color:_h?AppColors.sand.withValues(alpha: .12):Colors.transparent,
                   border:Border.all(color:_h?AppColors.sand:AppColors.border),
                   borderRadius:BorderRadius.circular(8)),
               child:Text(widget.link.label,style:AppText.bodyStrong.copyWith(fontSize:13,color:_h?AppColors.sand:AppColors.mistLight)))));
@@ -207,7 +219,7 @@ class _SendBtnState extends State<_SendBtn>{
                       ? [AppColors.mist, AppColors.mist]
                       : (_h?[AppColors.sandLight,AppColors.sand]:[AppColors.sand,AppColors.tealDark])),
                   borderRadius:BorderRadius.circular(10),
-                  boxShadow:_h && !widget.loading?[BoxShadow(color:AppColors.sand.withOpacity(.3),blurRadius:24)]:null),
+                  boxShadow:_h && !widget.loading?[BoxShadow(color:AppColors.sand.withValues(alpha: .3),blurRadius:24)]:null),
               child: widget.loading
                   ? const SizedBox(
                   width:18,height:18,
